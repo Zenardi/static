@@ -1,13 +1,11 @@
 pipeline{
   agent any
   stages{
-    stage('Build'){
+    stage('Upload to AWS'){
       steps {
-              sh 'echo "Hello World"'
-              sh '''
-              echo "Multline shell steps works too"
-              ls -lah
-              '''
+        withAWS(region:'us-west-2') {
+            s3Upload(file:'index.html', bucket:'zenardi-static-site', path:'index.html')
+        }
       }
     }
   }
